@@ -5,14 +5,16 @@ const AddMovieForm = ({ addMovie }) => {
   const [description, setDescription] = useState('');
   const [posterURL, setPosterURL] = useState('');
   const [rating, setRating] = useState('');
+  const [trailerLink, setTrailerLink] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addMovie({ title, description, posterURL, rating });
+    addMovie({ title, description, posterURL, rating, trailerLink });
     setTitle('');
     setDescription('');
     setPosterURL('');
     setRating('');
+    setTrailerLink('');
   };
 
   return (
@@ -42,6 +44,13 @@ const AddMovieForm = ({ addMovie }) => {
         placeholder="Rating"
         value={rating}
         onChange={(e) => setRating(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        placeholder="Trailer Link (Embed URL)"
+        value={trailerLink}
+        onChange={(e) => setTrailerLink(e.target.value)}
         required
       />
       <button type="submit">Add Movie</button>

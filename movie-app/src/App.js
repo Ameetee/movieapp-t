@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+  import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MovieList from './components/MovieList';
 import Filter from './components/Filter';
 import AddMovieForm from './components/AddMovieForm';
+import MovieDetails from './components/MovieDetails';
 import './App.css';
 
 function App() {
@@ -10,7 +12,7 @@ function App() {
   const [filterRating, setFilterRating] = useState('');
 
   const addMovie = (movie) => {
-    setMovies((prevMovies) => [...prevMovies, movie]);
+    setMovies((prevMovies) => [...prevMovies, { ...movie, id: prevMovies.length + 1 }]);
   };
 
   const handleTitleChange = (title) => {
@@ -31,17 +33,26 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>Movie Management</h1>
-      <AddMovieForm addMovie={addMovie} />
-      <Filter
-        title={filterTitle}
-        rate={filterRating}
-        onTitleChange={handleTitleChange}
-        onRateChange={handleRateChange}
-      />
-      <MovieList movies={getFilteredMovies()} />
-    </div>
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <h1>Movie Management</h1>
+        </header>
+        <Routes>
+          <Route path="/" element={<>
+            <AddMovieForm addMovie={addMovie} />
+            <Filter
+              title={filterTitle}
+              rate={filterRating}
+              onTitleChange={handleTitleChange}
+              onRateChange={handleRateChange}
+            />
+            <MovieList movies={getFilteredMovies()} />
+          </>} />
+          <Route path="/movie/:id" element={<MovieDetails movies={movies} />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
